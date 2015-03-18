@@ -1,0 +1,92 @@
+GDF 1.0 Clue B Game Board
+
+PLACES 9
+
+11 Conservatory
+*You are in the Conservatory.
+*There is a path to the north,
+*to the east, and a "secret" 
+*passage underground.
+
+12 Billiard Room
+*You are in the Billiard Room.
+*There is a path to the south,
+*to the southeast, and to the
+*north.
+
+13 Library
+*You are in the Library.
+*There is a path to the north, 
+*to the northeast, to the south,
+*and to the south southeast.
+
+14 Study
+*You are in the Study.
+*There is a path to the south,
+*to the east, and a "secret"
+*passage underground.
+
+24 Hall
+*You are in the Hall.
+*There is a path to the west, 
+*to the southwest, to the 
+*southeast, and to the east.
+
+21 Ballroom
+*You are in the Ballroom.
+*There is a path to the west,
+*to the northwest, to the east,
+*to the northeast, and to the
+*north northwast.
+
+31 Kitchen
+*You are in the Kitchen.
+*There is a path to the west,
+to the north, and a "secret"
+*passage underground.
+
+32 Dining Room
+*You are in the Dining Room.
+*There is a path to the south,
+*to the southwest, to the north,
+*and to the northwest.
+
+34 Library
+*You are in the Library.
+*There is a path to the south,
+*to the west, and a "secret"
+*passage underground.
+
+PATHS 32
+1	14	E	24
+2	24	W	14
+3	14	D	31
+4	31	D	14
+5	24	S	13
+6	13	N	14
+7	24	SW	13
+8	13	NE	24
+9	24	SE	32
+10	32	NW	24
+11	24	E	34
+12	34	W	24
+13	34	D	11
+14	11	D	34
+15	34	S	32
+16	32	N	34
+17	32	S	31
+18	31	N	32
+19	32	SW	21
+20	21	NE	32
+21	31	W	21
+22	21	E	31
+23	21	W	11
+24	11	E	21
+25	21	NW	12
+26	12	SE	21
+27	21	NNW	13
+28	13	SSE	21
+29	11	N	12
+30	12	S	11
+31	12	N	13
+32	13	S	12

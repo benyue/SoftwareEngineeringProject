@@ -1,0 +1,17 @@
+GDF 2.0 Testing Environment
+
+PLACES 2
+
+20 Ogre's Lair
+*This is a valid room
+
+30 Troll's Bridge
+*This is also a valid room
+
+PATHS 1
+
+15 20 N 30 52
+//This is going from Ogre's Lair north to the Troll's Bridge
+
+16 30 D 20 62
+//This is going from Troll's Bridge down to the Ogre's Lair

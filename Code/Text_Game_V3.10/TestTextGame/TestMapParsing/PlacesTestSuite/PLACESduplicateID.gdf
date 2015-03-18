@@ -1,0 +1,9 @@
+GDF 2.0 Testing Environment
+
+PLACES 2
+
+20 Ogre's Lair
+*This is a valid room
+
+20 Troll's Bridge
+*This has an invalid room ID

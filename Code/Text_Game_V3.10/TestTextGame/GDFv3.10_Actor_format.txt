@@ -1,0 +1,14 @@
+ACTORS nActors
+
+//this next pattern will repeat nActor times
+
+ID placeID name long_answer_with_spaces
+*Riddle description
+*Riddle
+*Riddle
+
+//ID is a 32 bit signed integer, unique amongst all actors
+//placeID must be a valid PlaceID
+//name will only be interpreted as 1 word, I.E. two words names will have the second word as part of the riddle answer
+//long_answer_with_spaces fills the rest of the line until any comments
+//*Riddle description lines continue as needed for the riddle

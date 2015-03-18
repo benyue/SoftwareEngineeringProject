@@ -1,0 +1,125 @@
+UISub
+
+	UI
+		
+		-----------------------------
+		loadGame(File fileName): boolean
+		//other menu navigation
+
+WorldMapSub
+	WorldMap
+		File fileName
+		List<Item> inventory//many Items will not be sellable: tools, quest items, character passive upgrades
+		List<String> levels
+		int money
+		--------------------------------
+		WorldMap(File fileName) 
+		saveGame(): bool //called upon user request, or when user confirms exploration of a level
+		openMarket(List<Item>, int): bool
+		closeMarket(): bool //updates user inventory and money from Market, then calls destructor for Market
+		createLevel(String, double, double, double): bool //string theme, doubles for min / max depth, volume of level, calls createLevel in LevelCreator
+		loadLevel(double, double): bool //double coordinates, mapping of coordinates to List<String> levels, calls loadLevel in LevelCreator 
+		startGamePlay(Map): bool //called in both createLevel and loadLevel, contains local variables selected by user to pass to Game
+	Market
+		int money
+		List<Item> userInventory
+		List<Item> marketGoods
+		-------------------------------
+		Market(List<Item>, int)
+		sellItemToPlayer(int): bool //add to userInventory, decrement money
+		buyItemFromPlayer(int): bool //remove from, increment money
+	LevelCreator
+		
+		-----------------------------
+		LevelCreator()
+		createLevel(String, double, double, double): Map //generate map based on parameters
+		loadLevel(String): Map //load map based on map name
+GamePlaySub
+	Game
+		Map gameMap
+		List<Item> userInventory
+		List<Treasure> collectedTreasure
+		List<GasTank> carryingTanks
+		GasTank currentTank
+		Point startingDepth //3D point for entrance / exit
+		Point currentLocation//used for real-time calculations 
+		Point focalPoint //used for direction of viewport
+		double breathingRate
+		double time//calculated based on currentTank and breathing rate
+		double oxygenPressure //calculated based on depth and current gas formula
+		double nitrogenNarcosis //calculated based on depth and current gas forumla
+		double buoyancy//0 if user is balanced, positive if going up, negative if going down
+		Trap activeTrap
+		Viewport playerViewport
+		------------------------------------------------------------------------
+		getTreasure(Point): Treasure//calculation between currentLocation and treasure coords, returns null if not close enough
+		useTool(): bool// if activeTrap is not null, compares tool used to activeTrap.removal, otherwise checks nearby traps or entities to attack if tool matches trap removal or if knife / flashlight to entity
+		moveViewport(Point, Point): bool //calls update viewport to relocate viewport
+		checkCollision(): bool //called with viewport movement, linearly checks if close enough to trap or to harmful entity
+		springTrap(Trap): bool //called while checking for collisions
+		disableTrap(Trap): bool //called in useTool, disables trap, if activeTrap != null and Trap parameter == activeTrap, activeTrap == null
+		tankUpdate(int): bool//returns false if int index doens't point to GasTank, otherwise makes it currentTank
+		consumeGas(): bool//continuously run to consume gas based on breathing rate and updates remaining time based on breathing rate and remaining value of currentTank
+		attackingEntity(Entity): bool//checkCollision, check if hostile, then add breathing rate penalty, is called each second until checkPlayerLocation returns false
+		destroyEntity(Entity): bool//called when Entity is hit with knife or flashlight, body is converted to Treasure with same coordinates and worth of Entity
+	CommandInterpreter
+	
+		--------------------------------
+		executeObtain(Point): bool //reads user input, prompts user based on results from getTreasure
+		executeUse(int): bool //mapping of keys to tool slots (indices in userInventory), check if item in that slot and performs tool function
+		executeLook(): bool//call to Game.moveViewport, translates mouse movement to new viewport location
+		executeSwim(): bool//call to Game.moveViewport, translates force and direction of swimming to new viewport location
+		executeRotate(): bool//call to Game.moveViewport, translates change of body positoin to new viewport location
+		executeTankSwitch(int): bool//mapping of keyboard to gas tank to switch too, calls tankUpdate in Game
+	Entity
+		bool small //if small, can be killed by a knife or flashlight
+		bool hostile// if hostile, will attack user if user moves in focal point
+		Point currentPoint
+		int pathIndex
+		double breathingRatePenalty//penalty per second to breathing rate that user takes while entity is close enough to user and attacking
+		Point focalPoint
+		previousFocalPoint
+		Viewport entityViewport
+		int worth//if killed, treasure worth
+		List<Point> travelingPath//collection of points that Entity will travel, will contain full circle of points (Point A is first entry and last entry is very close to A)
+		-------------------------------------
+		moveEntity(): bool //moves from travelingPath[pathIndex] to travelingPath[++pathIndex], also calls updateViewport and checkPlayerLocation
+		checkPlayerLocation(Point): bool//returns true if player is relatively close distance wise to line between entity and focal point and if able to see
+		attackPlayer(Point): bool //moves from currentPoint to users point, also changes focal point, must be hostile
+		resumePath(): bool //previousFocalPoint becomes focalPoint, returns to travelingPath[pathIndex], returns to cycle of moveEntity
+		checkCollision(Point): bool//check if close enough to attack player
+	Trap
+		Point currentLocation
+		bool restrictMovement//if true, user cannot move while stuck in this trap
+		double breathingRatePenalty
+		Item removal //if removal == item used while stuck in trap, trap is disabled
+		--------------------------------------
+		disableTrap(): bool//trap is disabled immediately after sprung if restrictMovement is false
+	Treasure
+		Point currentLocation
+		int worth
+		-----------------------
+		compareCoordinates(Point): bool//if distance between points is under threshold, return true
+	GasTank
+		double volume
+		double oxygenConcentration
+		double nitrogenConcentration
+		double heliumConcentration
+		String name
+		--------------------------------------------
+		consumeVolume(double): bool //decrementVolume, but volume cannot be less than 0
+	Viewport
+		Point currentViewportLocation
+		Point currentFocalPoint
+		-------------------------
+		updateViewport(Point, Point): bool //direct transition from previous location to new location, also setting the direction towards the new focal point
+		display(): bool //running in constant time to display viewport
+
+DataStorageSub
+	LostEmpireStorage
+	
+	
+		------------------------------
+		saveFile(File, int, List<Item>): bool//writes int (money) and List<Item> (user inventory) to a file in binary format
+		loadFile(File): WorldMap //load File, returns WorldMap class with information obtained in the binary file
+		appendFile(File, int, List<Item>): bool //appends binary file with information, used when user successfully exits the level exploration

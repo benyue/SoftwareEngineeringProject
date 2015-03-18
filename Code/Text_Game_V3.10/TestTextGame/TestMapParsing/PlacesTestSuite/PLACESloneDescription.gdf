@@ -1,0 +1,12 @@
+GDF 2.0 Testing Environment
+
+PLACES 3
+
+20 Normal //These comments are normal
+*This is a valid room
+
+30 normal als //These comments are normal
+*This is a valid room
+
+//40 Not normal - These comments block out the room ID and room name
+*This is an invalid room

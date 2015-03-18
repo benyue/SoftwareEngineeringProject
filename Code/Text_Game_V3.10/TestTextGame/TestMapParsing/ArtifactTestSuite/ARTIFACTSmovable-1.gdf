@@ -1,0 +1,30 @@
+GDF 2.0 Testing Environment
+
+PLACES 2
+
+20 Ogre's Lair
+*This is a valid room
+
+30 Troll's Bridge
+*This is also a valid room
+
+PATHS 2
+
+15 20 N 30 52
+//This is a valid path from the Ogre's Lair to the Troll's Bridge
+
+16 30 D 20 62
+//This is a valid path from the Troll's Bridge to the Ogre's Lair
+
+LIGHTING 1
+
+2 20 10
+//This is a valid lighting entry for the Ogre's Lair
+
+ARTIFACTS 2
+
+45 20 5 10 mallet
+*This is a valid artifact
+
+55 30 5 -1 sword
+*This is an invalid artifact because the movability is too low
